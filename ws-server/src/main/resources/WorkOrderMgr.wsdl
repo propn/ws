@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wsdl:definitions targetNamespace="http://ws.inf.eomm.ebs.starhub.com" xmlns:impl="http://ws.inf.eomm.ebs.starhub.com" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:wsaw="http://www.w3.org/2006/05/addressing/wsdl" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/">
+  <wsdl:types>
+    <xs:schema attributeFormDefault="qualified" elementFormDefault="qualified" targetNamespace="http://ws.inf.eomm.ebs.starhub.com">
+			<xs:element name="process">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element minOccurs="0" name="in" nillable="true" type="xs:string"/>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="processResponse">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element minOccurs="0" name="return" nillable="true" type="xs:string"/>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+		</xs:schema>
+  </wsdl:types>
+  <wsdl:message name="processResponse">
+    <wsdl:part name="parameters" element="impl:processResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="processRequest">
+    <wsdl:part name="parameters" element="impl:process">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:portType name="WorkOrderMgrPortType">
+    <wsdl:operation name="process">
+      <wsdl:input message="impl:processRequest" wsaw:Action="urn:process">
+    </wsdl:input>
+      <wsdl:output message="impl:processResponse" wsaw:Action="urn:processResponse">
+    </wsdl:output>
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="WorkOrderMgrSoap11Binding" type="impl:WorkOrderMgrPortType">
+    <soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+    <wsdl:operation name="process">
+      <soap:operation soapAction="urn:process" style="document"/>
+      <wsdl:input>
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="WorkOrderMgr">
+    <wsdl:port name="WorkOrderMgrHttpSoap11Endpoint" binding="impl:WorkOrderMgrSoap11Binding">
+      <soap:address location="http://localhost:8080/axis2/services/WorkOrderMgr"/>
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>
